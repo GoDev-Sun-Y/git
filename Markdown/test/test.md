@@ -11,8 +11,7 @@
 ### 3 安装特定版本的docker-ce
 *必须指定 `--setopt=obsoletes=0`，否则yum会自动安装更高版本*
 ```bash
-[root@master ~]# yum install --setopt=obsoletes=0  
-docker-ce-18.06.3.ce-3.el7 -y
+[root@master ~]# yum install --setopt=obsoletes=0 docker-ce-18.06.3.ce-3.el7 -y
 ```
 
 ### 4 添加一个配置文件
