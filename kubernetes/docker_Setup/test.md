@@ -29,6 +29,10 @@
 
 EOF
 ```
+检查一下
+```bash
+more /etc/docker/daemon.json
+```
 ### 5 启动docker
 ```bash
 [root@master ~]# systemctl restart docker  
