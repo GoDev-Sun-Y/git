@@ -1,40 +1,58 @@
-## 2.2.3 安装docker
+# Markdown 语法速查表
 
-### 1 切换镜像源
-```bash
-[root@master ~]# wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo
-```
-### 2 查看当前镜像源中支持的docker版本
-```bash
-[root@master ~]# yum list docker-ce --showduplicates
-```
-### 3 安装特定版本的docker-ce
-*必须指定 `--setopt=obsoletes=0`，否则yum会自动安装更高版本*
-```bash
-[root@master ~]# yum install --setopt=obsoletes=0 docker-ce-18.06.3.ce-3.el7 -y
-```
+## 一、换行与段落
+| 语法 | 说明 | 示例 |
+|------|------|------|
+| \`空格空格↵\` | **换行**（软回车） | 行尾两个空格 + 回车 |
+| \`↵↵\` | **换段**（新段落） | 连续两个回车（空一行） |
 
-### 4 添加一个配置文件
-*Docker在默认情况下使用的Cgroup Driver为cgroupfs，而kubernetes推荐使用systemd来代替cgroupfs*  
-```bash
-[root@master ~]# mkdir /etc/docker  
+## 二、文本样式
+| 语法 | 说明 | 示例 |
+|------|------|------|
+| \`**文本**\` | 加粗 | **加粗文本** |
+| \`*文本*\` | 斜体 | *斜体文本* |
+| \`***文本***\` | 斜体加粗 | ***斜体加粗*** |
+| \`~~文本~~\` | 删除线 | ~~删除文本~~ |
+| \`---\` 或 \`***\` 或 \`___\` | 分割线（独占一行） | 下方划线 |
 
-[root@master ~]# cat <<EOF > /etc/docker/daemon.json  
+## 三、标题
+| 语法 | 说明 | 示例 |
+|------|------|------|
+| \`# 标题\` | 一级标题（最大） | # 一级标题 |
+| \`###### 标题\` | 六级标题（最小） | ###### 六级标题 |
 
-{  
-  "exec-opts": ["native.cgroupdriver=systemd"],  
-  "registry-mirrors":  
-  ["https://kn0t2bca.mirror.aliyuncs.com"]  
-}  
+## 四、列表
+| 语法 | 说明 | 示例 |
+|------|------|------|
+| \`- 文本\` 或 \`* 文本\` 或 \`+ 文本\` | 无序列表（同级符号保持一致） | - 项目一<br>- 项目二 |
+| \`1. 文本\` | 有序列表（数字可随意写，但建议按顺序） | 1. 第一项<br>2. 第二项 |
+| \`    1. 子项\` | 列表嵌套（缩进 4 个空格或一个制表符） | 见下方说明 |
 
-EOF
+## 五、代码
+| 语法 | 说明 | 示例 |
+|------|------|------|
+| \`\` \`代码\` \`\` | 行内代码（单个反引号） | 这是 \`行内代码\` |
+| \`\`\`语言<br>代码<br>\`\`\` | 代码块高亮（三个反引号） | \`\`\`js<br>console.log()<br>\`\`\` |
+
+## 六、引用与链接
+| 语法 | 说明 | 示例 |
+|------|------|------|
+| \`> 引用文本\` | 引用块 | > 这是一段引用 |
+| \`>> 嵌套引用\` | 引用嵌套 | >> 二级引用 |
+| \`[显示文本](URL)\` | 超链接（行内式） | [百度](https://baidu.com) |
+| \`[显示文本][引用名]<br>[引用名]: URL\` | 超链接（参考式） | [GitHub][gh]<br>[gh]: https://github.com |
+
+## 七、图片与表格
+| 语法 | 说明 | 示例 |
+|------|------|------|
+| \`![替代文本](图片地址)\` | 插入图片 | ![Logo](logo.png) |
+| \`\| 左对齐 \| 居中对齐 \| 右对齐 \|<br>\`\| :-- \| :-: \| --: \|\` | 表格（第二行控制对齐） | 见下方示例 |
+
+## 八、其他
+| 语法 | 说明 |
+|------|------|
+| \`- [ ] 未勾选\` | 勾选框（部分平台支持） |
+| \`- [x] 已勾选\` | 勾选框（部分平台支持） |
 ```
-### 5 启动docker
-```bash
-[root@master ~]# systemctl restart docker  
-[root@master ~]# systemctl enable docker
-```
-### 6 检查docker状态和版本
-```bash
-[root@master ~]# docker version
+在markdown内写markdown语法容易直接渲染，具体要看源码
 ```
