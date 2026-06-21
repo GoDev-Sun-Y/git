@@ -32,6 +32,7 @@ gpgkey=http://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg
 编辑 `/etc/sysconfig/kubelet`，添加以下配置（指定 cgroup 驱动为 `systemd`，并设置 kube-proxy 模式为 `ipvs`）：
 
 ```bash
+vim /etc/sysconfig/kubelet
 KUBELET_CGROUP_ARGS="--cgroup-driver=systemd"
 KUBE_PROXY_MODE="ipvs"
 ```

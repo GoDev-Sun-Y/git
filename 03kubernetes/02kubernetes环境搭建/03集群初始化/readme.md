@@ -15,7 +15,7 @@
     --kubernetes-version=v1.17.4 \
     --pod-network-cidr=10.244.0.0/16 \
     --service-cidr=10.96.0.0/12 \
-    --apiserver-advertise-address=192.168.109.100
+    --apiserver-advertise-address=192.168.88.100
 ```
 
 📌 **参数说明**：

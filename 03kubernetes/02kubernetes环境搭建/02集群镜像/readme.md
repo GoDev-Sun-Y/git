@@ -37,6 +37,9 @@ images=(
 # 阿里云镜像仓库地址
 REGISTRY="registry.cn-hangzhou.aliyuncs.com/google_containers"
 
+#补一个国内镜像仓库
+export REGISTRY=registry.aliyuncs.com/google_containers
+
 # 循环拉取、打标签、清理
 for imageName in ${images[@]}; do
     docker pull ${REGISTRY}/${imageName}

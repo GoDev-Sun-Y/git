@@ -79,9 +79,63 @@ wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-
 # 2. （可选）替换镜像仓库为国内加速源
 sed -i 's|quay.io|quay-mirror.qiniu.com|g' kube-flannel.yml
 
-# 3. 应用配置
+# 3.假设本地镜像为 flannel:v0.12.0-amd64（请替换为你实际的镜像名）
+sed -i 's|quay.io/coreos/flannel:v0.12.0-amd64|flannel:v0.12.0-amd64|g' kube-flannel.yml
+
+# 4. 应用配置
 kubectl apply -f kube-flannel.yml
 
-# 4. 等待片刻，查看节点状态
+# 5. 等待片刻，查看节点状态
+kubectl get nodes
+
+# 如果发现问题，检查/etc/cni/net.d/
+ls /etc/cni/net.d/
+# 如果为空或无
+mkdir -p /etc/cni/net.d/
+#
+cat > /etc/cni/net.d/10-flannel.conflist <<EOF
+
+{
+
+"name": "cbr0",
+
+"cniVersion": "0.3.1",
+
+"plugins": [
+
+{
+
+"type": "flannel",
+
+"delegate": {
+
+"hairpinMode": true,
+
+"isDefaultGateway": true
+
+}
+
+},
+
+{
+
+"type": "portmap",
+
+"capabilities": {
+
+"portMappings": true
+
+}
+
+}
+
+]
+
+}
+
+EOF
+#
+systemctl restart kubelet
+#
 kubectl get nodes
 ```

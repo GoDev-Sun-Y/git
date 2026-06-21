@@ -18,12 +18,12 @@ CentOS Linux release 7.5.1804 (Core)
 ```bash
 
 主机名成解析 编辑三台服务器的 /etc/hosts 文件，添加下面内容
+
+vim /etc/hosts
+#添加
 192.168.109.100  master
-
 192.168.109.101  node1
-
 192.168.109.102  node2
-
 ```
 ---
 
@@ -65,13 +65,18 @@ Kubernetes 和 Docker 在运行中会产生大量的 iptables 规则，为了不
 
 ## 5) 禁用 SELinux
 
-SELinux 是 Linux 系统下的一个安全服务，如果不关闭它，在安装集群中会产生各种各样的奇葩问题。
-```bash
+SELinux 是 Linux 系统下的一个安全服务，如果不关闭它，在安装集群中会产生各种各样的奇葩问题。  
 
+查看这个服务的状态
+```bash
+getenforce
+```
 编辑 /etc/selinux/config 文件，修改 SELINUX 的值为 disabled
 注意修改完毕之后需要重启 linux 服务
+```bash
+vim /etc/selinux/config
+#文档中这里更改为
 SELINUX=disabled
-
 ```
 ---
 
@@ -80,10 +85,12 @@ SELINUX=disabled
 Swap 分区指的是虚拟内存分区，它的作用是在物理内存使用完之后，将磁盘空间虚拟成内存来使用。  
 启用 swap 设备会对系统的性能产生非常负面的影响，因此 Kubernetes 要求每个节点都要禁用 swap 设备。  
 但是如果因为某些原因确实不能关闭 swap 分区，就需要在集群安装过程中通过明确的参数进行配置说明。
-```bash
 
 编辑分区配置文件 /etc/fstab，注释掉 swap 分区一行
 注意修改完毕之后需要重启 linux 服务
+```bash
+vim /etc/fstab
+#注释掉指定内容
 ```
 | UUID=455cc753-7a60-4c17-a424-7741728c44a1 /boot | xfs | defaults | 0 0 |
 |------|------|------|------|
@@ -127,7 +134,22 @@ net.ipv4.ip_forward = 1
 
 1. **安装 ipset 和 ipvsadm**
 ```bash
-[root@master ~]# yum install ipset ipvsadmin -y
+[root@master ~]# yum install ipset ipvs
+(如果不成功)
+# 1. 进入 yum 源目录
+cd /etc/yum.repos.d/
+
+# 2. 备份原有 repo
+mkdir -p backup && mv *.repo backup/
+
+# 3. 下载阿里云 CentOS 7 源（适配 EOL 后的 vault）
+curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-7.repo
+
+# 4. 清理并重建缓存
+yum clean all && yum makecache
+# 5. 测试是否成功
+yum repolist
+# 6. 重新用yum下载
 ```
 2. **添加需要加载的模块写入脚本文件**
 ```bash
