@@ -1,0 +1,1 @@
+![图片描述](../images/kubectl-commend-area.png)
