@@ -582,3 +582,10 @@ for i := 0; i < len(切片名); i++ {
     }
 }
 ```
+
+# 操作数据库需要配置的代理与需要下载的依赖包
+```bash
+go env -w GOPROXY=https://goproxy.cn #配置代理
+go get gorm.io/driver/mysql
+go get gorm.io/gorm
+```
